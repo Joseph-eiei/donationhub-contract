@@ -2,7 +2,6 @@ use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::serde::Serialize;
 use near_sdk::{env, AccountId, Timestamp, near_bindgen};
 use near_sdk::collections::{Vector};
-use near_sdk::PanicOnDefault;
 use witgen::witgen;
 
 #[derive(BorshDeserialize, BorshSerialize, Serialize)]
