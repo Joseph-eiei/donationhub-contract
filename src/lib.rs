@@ -45,7 +45,7 @@ impl Contract {
         let authorId = env::predecessor_account_id(); // Get the post author's userId
         let timestamp = env::block_timestamp(); // Get block's timestamp
 
-        let mut postInfo = PostInfo {
+        let postInfo = PostInfo {
             name,
             description,
             authorId,
@@ -58,10 +58,14 @@ impl Contract {
     }
 
     pub fn update_total_raised(&mut self, fund: u64, postId: u64) {
-        self.post
+        let mut new_post: PostInfo = self
+            .post
             .get(postId)
-            .unwrap_or_else(|| panic!("Post number {} not found", postId))
-            .total_raised += fund;
+            .unwrap_or_else(|| panic!("Post id {} not found", postId));
+
+        new_post.total_raised += fund;
+
+        self.post.replace(postId, &new_post);
     }
 
     pub fn get_post(&self, limit: Option<u64>) -> Vec<PostInfo> {
