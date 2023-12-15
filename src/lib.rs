@@ -16,6 +16,7 @@ pub struct PostInfo {
     pub bitkub_address: String,
     pub jfin_address: String,
     pub total_raised: u64,
+    pub id: u64,
 }
 
 #[near_bindgen]
@@ -44,15 +45,17 @@ impl Contract {
     ) {
         let authorId = env::predecessor_account_id(); // Get the post author's userId
         let timestamp = env::block_timestamp(); // Get block's timestamp
+        let id = self.post.len();
 
         let postInfo = PostInfo {
             name,
             description,
             authorId,
             timestamp,
-            bitkub_address: bitkub_address.unwrap(),
-            jfin_address: jfin_address.unwrap(),
-            total_raised: total_raised.unwrap(),
+            bitkub_address: bitkub_address.unwrap_or_default(),
+            jfin_address: jfin_address.unwrap_or_default(),
+            total_raised: total_raised.unwrap_or_default(),
+            id,
         };
         self.post.push(&postInfo); // Push all the infomation to the vector
     }
